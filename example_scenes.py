@@ -133,4 +133,95 @@ class UpdatersExample(Scene):
         )
         self.wait()
 
+def exponential_cos(x):
+    return np.cos(np.exp( (-x**2) + 2))
+
+
+class ExponentialCosConstruction(GraphScene):
+    CONFIG = {
+        "x_min" : -3,
+        "x_max" : 3,
+        "y_min" : -1.5,
+        "y_max" : 1.5,
+        "graph_origin" : ORIGIN ,
+        "function_color" : BLUE ,
+        "axes_color" : GREEN,
+        "x_labeled_nums" :range(-3,4,1),
+        "center_point" : 0,
+    }   
+        
+    def construct(self):
+        self.setup_axes(animate=True)
+        
+        #latex isnt fully installed yet
+        #exp_cos_definition = TexMobject("\cos\left(e^{-x^2 +2}\right)")
+        #label_coord = self.coords_to_point(-3,5)
+        #exp_cos_definition = question_marks.next_to(label_coord)
+        
+        
+        exponential_cos_graph = self.get_graph(exponential_cos,self.function_color) #you're not using this in the end, see list stuff
+        
+        vert_line_pos = self.get_vertical_line_to_graph(2,exponential_cos_graph,color=YELLOW)
+        
+        
+        #some illustration to show its even maybe, otherwise v/o
+        
+        roots = [0.671,1.244,-0.671,-1.244] #actual coords of the points
+        roots = [self.coords_to_point(x,0) for x in roots]
+        root_dots = [Dot().next_to(root,RIGHT*0) for root in roots]
+              
+        tps = [(0,0.4484),(0.40264,1),(-0.40264,1),(0.92481,-1),(-0.92481,-1)]
+        tps = [self.coords_to_point(tp[0],tp[1]) for tp in tps]
+        
+        tp_points = [Dot(color = RED).next_to(tp,RIGHT*0) for tp in tps]
+        tp_intervals = [(-0.1,0.1),(0.3,0.485),(0.85,1),(-0.485,-0.3),(-1,-0.85)]
+        
+                
+        tp_interval_parts =[]
+        for tp_interval in tp_intervals:
+            xmin, xmax = tp_interval[0], tp_interval[1]
+            tp_interval_parts += [self.get_graph(lambda x : exponential_cos(x), color = BLUE, x_min = xmin, x_max = xmax)]
+        
+        hori_asymptote= DashedLine(self.coords_to_point(-3, 1), self.coords_to_point(3, 1),color = WHITE)
+
+        
+        
+
+        #all the other intervals around interesting characteristics you can reveal
+        #maybe one that just shows the rest of the graph so it doesnt look weird or you miss a gap. also if you want to transform it from there, having a fully stiched together one hiding it the back ground, you can fade that in (while screen doesnt see a difference)
+        #then fade out all jigsaw parts and then transform the stiched one, exponential_cos_graph. #also useful to maybe just do a positive one too, so you can illustrate evenness later. idk what to do about showing periodicities
+        
+        #now you're gonna wanna keep these in separate lists, so you can loop and make sure equally important things get shown at once. loop inside self.play i mean, over showcreaation
+        #you can show them at different times here now too. just so you dont have to keep track of where they would be if you collated alll these lists together for some reason
+                
+        
+        self.wait()
+        
+        #self.play(ShowCreation(exp_cos_definition))        
+        for root_dot in root_dots:
+            self.play(ShowCreation(root_dot))
+        self.wait()
+        
+
+        
+        for tp_dot in tp_points:
+            self.play(ShowCreation(tp_dot))
+            
+        for tp_part in tp_interval_parts:
+            self.play(ShowCreation(tp_part))
+            
+        self.wait(3)
+        
+        self.play(ShowCreation(hori_asymptote))
+        
+        self.play(ShowCreation(exponential_cos_graph),run_time = 2)
+        self.wait()
+        
+        #putting all myobjects together as one VGroup now in order tofade them out at once
+        root_dots = VGroup(*root_dots)
+        tp_points = VGroup(*tp_points)
+        tp_interval_parts = VGroup(*tp_interval_parts)
+        self.play(FadeOut(root_dots),FadeOut(tp_points),FadeOut(tp_interval_parts),FadeOut(hori_asymptote))
+        self.wait()
+
 # See old_projects folder for many, many more

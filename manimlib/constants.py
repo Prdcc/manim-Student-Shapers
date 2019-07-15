@@ -92,8 +92,8 @@ NO_SCENE_MESSAGE = """
 
 # There might be other configuration than pixel shape later...
 PRODUCTION_QUALITY_CAMERA_CONFIG = {
-    "pixel_height": 1440,
-    "pixel_width": 2560,
+    "pixel_height": 1080,
+    "pixel_width": 1920,
     "frame_rate": 60,
 }
 
@@ -193,7 +193,7 @@ COLOR_MAP = {
     "GREEN_A": "#C9E2AE",
     "YELLOW_E": "#E8C11C",
     "YELLOW_D": "#F4D345",
-    "YELLOW_C": "#FFFF00",
+    "YELLOW_C": "#FFDD00",
     "YELLOW_B": "#FFEA94",
     "YELLOW_A": "#FFF1B6",
     "GOLD_E": "#C78D46",
@@ -229,7 +229,7 @@ COLOR_MAP = {
     "GREY_BROWN": "#736357",
     "PINK": "#D147BD",
     "GREEN_SCREEN": "#00FF00",
-    "ORANGE": "#FF862F",
+    "ORANGE": "#EC7300",
 }
 PALETTE = list(COLOR_MAP.values())
 locals().update(COLOR_MAP)

@@ -333,6 +333,20 @@ class GraphScene(Scene):
             self.input_to_graph_point(x, graph),
             **line_kwargs
         )
+    
+    def get_vertical_line_from_graph(
+        self,
+        x, graph,
+        line_class=Line,
+        **line_kwargs
+    ):
+        if "color" not in line_kwargs:
+            line_kwargs["color"] = graph.get_color()
+        return line_class(
+            self.input_to_graph_point(x, graph),
+            self.coords_to_point(x, 0),
+            **line_kwargs
+        )
 
     def get_vertical_lines_to_graph(
         self, graph,
@@ -345,6 +359,20 @@ class GraphScene(Scene):
         x_max = x_max or self.x_max
         return VGroup(*[
             self.get_vertical_line_to_graph(x, graph, **kwargs)
+            for x in np.linspace(x_min, x_max, num_lines)
+        ])
+    
+    def get_vertical_lines_from_graph(
+        self, graph,
+        x_min=None,
+        x_max=None,
+        num_lines=20,
+        **kwargs
+    ):
+        x_min = x_min or self.x_min
+        x_max = x_max or self.x_max
+        return VGroup(*[
+            self.get_vertical_line_from_graph(x, graph, **kwargs)
             for x in np.linspace(x_min, x_max, num_lines)
         ])
 
