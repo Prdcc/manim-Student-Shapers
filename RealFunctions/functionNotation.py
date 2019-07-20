@@ -66,9 +66,9 @@ class DerivativeDef(Scene):
 
 class FunctionDef(Scene):
     def construct(self):
-        definition=TextMobject("$\\cos(e^{-x^2+2})$")
+        definition=TextMobject("\\begin{align*}f:\\mathbb{R}&\\rightarrow\\mathbb{R}\\\\x&\\mapsto \\cos(e^{-x^2+2})\\end{align*}", color=BLACK)
         definition.move_to(UP*1)
-        self.play(ShowCreation(definition))
+        self.add(definition)
         self.wait(15)
         
  

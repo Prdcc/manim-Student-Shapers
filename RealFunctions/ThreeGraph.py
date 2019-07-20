@@ -201,3 +201,34 @@ class PlotInt(GraphScene):
         self.play(ShowCreation(graphObj), ShowCreation(graph_lab))
         self.wait(4)
 
+class PlotExercise(GraphScene):
+    CONFIG = {
+        "x_min" : -6,
+        "x_max" : 6,
+        "y_min" : -2.5,
+        "y_max" : 2.5,
+        "graph_origin" : ORIGIN ,
+        "function_color" : BLUE ,
+        "axes_color" : GREEN,
+        "center_point" : 0
+    }   
+    def construct(self):
+        erfInt = lambda x:  1.53846* np.exp(0.2*x)* (1.5*np.sin(0.3*x) + np.cos(0.3*x))-2
+        self.setup_axes(animate=False)
+        derivative = lambda x: np.exp(0.2*x)*(0.2*np.cos(0.3*x) - 0.3*np.sin(0.3*x))
+        exponential = lambda x: np.exp(0.2*x)*np.cos(0.3*x)
+        derivativeObj = self.get_graph(derivative,self.function_color,x_min=-6,x_max=6)
+        erfObj = self.get_graph(erfInt,YELLOW,x_min=-6,x_max=6)
+        expObj = self.get_graph(exponential,WHITE,x_min=-6,x_max=6)
+        labelExp = self.get_graph_label(expObj, label = "B")
+        labelDer = self.get_graph_label(derivativeObj, label = "A")
+        labelErf = self.get_graph_label(erfObj, label = "C")
+
+        expComp = Mobject().add(expObj,labelExp)
+        erfComp = Mobject().add(erfObj,labelErf)
+        derComp = Mobject().add(derivativeObj,labelDer)
+
+        self.play(ShowCreation(derComp),ShowCreation(expComp),ShowCreation(erfComp),
+            run_time=2
+        )
+        self.wait(12)

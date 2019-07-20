@@ -54,5 +54,4 @@ class SumODE(GraphScene):
         )
 
         self.wait(10)
-
         
